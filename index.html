@@ -1,0 +1,229 @@
+<!doctype html>
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Memocho, carnets de bien-être</title>
+<style>
+/* Layout: en-tête simple, héros centré sur un carnet, grille de deux livres, texte court. */
+:root {
+  --bg: #fdfaf3;
+  --paper: #ffffff;
+  --fg: #14284b;
+  --muted: #5b6478;
+  --navy: #1b3a6b;
+  --orange: #f29a2e;
+  --line: #e7e0cf;
+  --display: "Caveat", "Segoe Script", cursive;
+  --body: "Nunito", system-ui, sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1a2e;
+    --paper: #17243d;
+    --fg: #f4efe3;
+    --muted: #b9c1d3;
+    --navy: #8fb0e6;
+    --orange: #f7a94a;
+    --line: #2a3a5a;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f1a2e;
+  --paper: #17243d;
+  --fg: #f4efe3;
+  --muted: #b9c1d3;
+  --navy: #8fb0e6;
+  --orange: #f7a94a;
+  --line: #2a3a5a;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.6;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.wrap { max-width: 980px; margin: 0 auto; }
+img { max-width: 100%; }
+a { color: var(--navy); }
+h1, h2, h3 { text-wrap: balance; line-height: 1.15; margin: 0; }
+
+header.top {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+  gap: 12px; padding-block: 18px;
+}
+.logo { font-family: var(--display); font-size: 2rem; color: var(--navy); text-decoration: none; font-weight: 700; }
+nav.links { display: flex; flex-wrap: wrap; gap: 6px 18px; }
+nav.links a { color: var(--fg); text-decoration: none; font-size: 0.95rem; }
+nav.links a:hover, nav.links a:focus-visible { color: var(--orange); }
+
+.hero {
+  display: grid; grid-template-columns: 1fr; gap: 32px; align-items: center;
+  padding-block: 32px 56px;
+}
+@media (min-width: 760px) { .hero { grid-template-columns: 1.1fr 0.9fr; } }
+.eyebrow { font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--orange); font-weight: 800; margin-bottom: 12px; }
+.hero h1 { font-family: var(--display); font-size: clamp(2.6rem, 8vw, 4.2rem); font-weight: 700; color: var(--navy); }
+.hero p.lead { font-size: 1.1rem; color: var(--muted); max-width: 34em; margin: 18px 0 26px; }
+.cta { display: flex; flex-wrap: wrap; gap: 12px; }
+.btn {
+  display: inline-block; padding: 12px 20px; border-radius: 999px; font-weight: 800;
+  text-decoration: none; border: 2px solid var(--navy); color: var(--navy);
+}
+.btn.solid { background: var(--navy); color: var(--bg); }
+.btn:focus-visible { outline: 3px solid var(--orange); outline-offset: 3px; }
+
+/* Carnet dessiné en CSS */
+.notebook {
+  position: relative; width: min(300px, 80%); aspect-ratio: 3 / 4; margin: 0 auto;
+  background: var(--paper); border: 2px solid var(--navy); border-radius: 10px 16px 16px 10px;
+  box-shadow: 10px 10px 0 var(--orange);
+  padding: 34px 24px 24px 40px;
+  background-image: repeating-linear-gradient(to bottom, transparent 0 31px, var(--line) 31px 32px);
+  background-position: 0 40px;
+}
+.notebook::before {
+  content: ""; position: absolute; left: 14px; top: 16px; bottom: 16px; width: 10px;
+  background: radial-gradient(circle, var(--navy) 4px, transparent 5px) 0 0 / 10px 28px repeat-y;
+}
+.notebook .title { font-family: var(--display); font-size: 2.1rem; color: var(--navy); font-weight: 700; line-height: 1; }
+.notebook .sub { font-family: var(--display); font-size: 1.4rem; color: var(--orange); margin-top: 12px; }
+
+section { padding-block: 48px; }
+section h2 { font-family: var(--display); font-size: clamp(2rem, 6vw, 2.8rem); color: var(--navy); font-weight: 700; margin-bottom: 10px; }
+section > p.intro { color: var(--muted); max-width: 40em; margin: 0 0 28px; }
+
+.books { display: grid; gap: 22px; grid-template-columns: 1fr; }
+@media (min-width: 640px) { .books { grid-template-columns: 1fr 1fr; } }
+.book {
+  background: var(--paper); border: 1px solid var(--line); border-radius: 14px; padding: 22px;
+  display: flex; flex-direction: column; gap: 14px; min-width: 0;
+}
+.cover {
+  aspect-ratio: 4 / 5; border-radius: 6px 10px 10px 6px; padding: 22px;
+  display: flex; flex-direction: column; justify-content: space-between; color: #fff;
+  box-shadow: 6px 6px 0 var(--orange); max-width: 100%;
+}
+.cover.life { background: linear-gradient(160deg, #5f9e6e, #3f7a52); }
+.cover.winter { background: linear-gradient(160deg, #dfe8f2, #9fb4cc); color: var(--navy); }
+.cover .ct { font-family: var(--display); font-size: 2.2rem; font-weight: 700; line-height: 1; }
+.cover .cs { font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase; }
+.book h3 { font-family: var(--display); font-size: 1.9rem; color: var(--navy); font-weight: 700; }
+.book .meta { color: var(--muted); font-size: 0.95rem; }
+.book .price { font-weight: 800; color: var(--fg); }
+.book .btn { align-self: flex-start; }
+.soon { border-style: dashed; justify-content: center; align-items: center; text-align: center; color: var(--muted); }
+
+.values { display: grid; gap: 18px; grid-template-columns: 1fr; }
+@media (min-width: 760px) { .values { grid-template-columns: repeat(3, 1fr); } }
+.values div { min-width: 0; border-top: 3px solid var(--orange); padding-top: 14px; }
+.values h3 { font-family: var(--display); font-size: 1.7rem; color: var(--navy); font-weight: 700; margin-bottom: 6px; }
+.values p { margin: 0; color: var(--muted); }
+
+.about { background: var(--paper); border-radius: 18px; padding: clamp(22px, 5vw, 40px); border: 1px solid var(--line); }
+.about p { max-width: 42em; margin: 0 0 14px; }
+.about p:last-child { margin-bottom: 0; }
+.lang { font-size: 0.9rem; color: var(--muted); }
+
+footer { padding-block: 32px 40px; border-top: 1px solid var(--line); color: var(--muted); font-size: 0.9rem; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
+footer a { color: var(--navy); }
+
+a:focus-visible { outline: 3px solid var(--orange); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+
+<header class="wrap top">
+  <a class="logo" href="#accueil">Memocho</a>
+  <nav class="links" aria-label="Navigation principale">
+    <a href="#collection">Carnets</a>
+    <a href="#pourquoi">Pourquoi</a>
+    <a href="#auteur">À propos</a>
+  </nav>
+</header>
+
+<main class="wrap" id="accueil">
+  <div class="hero">
+    <div>
+      <p class="eyebrow">Carnets de bien-être · broché</p>
+      <h1>Vos idées, toujours avec vous.</h1>
+      <p class="lead">Des carnets guidés pour noter ce qui compte : votre gratitude, vos intentions, vos objectifs et les petits moments qui font avancer.</p>
+      <div class="cta">
+        <a class="btn solid" href="#collection">Voir les carnets</a>
+        <a class="btn" href="https://www.amazon.com/dp/B0HQQ1B11G" target="_blank" rel="noopener">Sur Amazon</a>
+      </div>
+    </div>
+    <div class="notebook" role="img" aria-label="Illustration d'un carnet à spirales">
+      <div class="title">Memocho</div>
+      <div class="sub">Your ideas, always with you</div>
+    </div>
+  </div>
+
+  <section id="collection" aria-labelledby="h-collection">
+    <h2 id="h-collection">Les carnets</h2>
+    <p class="intro">Chaque carnet contient 120 pages guidées, avec des invites courtes pour écrire chaque jour, et une couverture inspirée de la nature et des saisons.</p>
+    <div class="books">
+      <article class="book">
+        <div class="cover life" aria-hidden="true">
+          <span class="cs">Memocho · Série Life Notes</span>
+          <span class="ct">Life<br>Notes</span>
+        </div>
+        <h3>Life Notes</h3>
+        <p class="meta">120 pages guidées pour la gratitude, les objectifs et tout ce qui pousse à grandir.</p>
+        <p class="price">9,99 $US · broché</p>
+        <a class="btn solid" href="https://www.amazon.com/dp/B0HQQ1B11G" target="_blank" rel="noopener">Voir sur Amazon</a>
+      </article>
+      <article class="book">
+        <div class="cover winter" aria-hidden="true">
+          <span class="cs">Memocho · Saison</span>
+          <span class="ct">Winter<br>Whispers</span>
+        </div>
+        <h3>Winter Whispers</h3>
+        <p class="meta">120 pages guidées pour les intentions, la gratitude, le haïku et la météo intérieure.</p>
+        <p class="price">9,99 $US · broché</p>
+        <a class="btn solid" href="https://www.amazon.com/dp/B0HQPR85MW" target="_blank" rel="noopener">Voir sur Amazon</a>
+      </article>
+      <article class="book soon">
+        <p><strong>D'autres carnets arrivent bientôt.</strong></p>
+        <p class="meta">Restez à l'écoute pour les prochaines saisons.</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="pourquoi" aria-labelledby="h-pourquoi">
+    <h2 id="h-pourquoi">Pourquoi Memocho</h2>
+    <p class="intro">Une page blanche peut intimider. Memocho propose un cadre simple pour commencer, sans rien imposer.</p>
+    <div class="values">
+      <div>
+        <h3>Des invites claires</h3>
+        <p>Chaque page pose une question précise, pour écrire quelques lignes sans effort.</p>
+      </div>
+      <div>
+        <h3>Un format pratique</h3>
+        <p>Des carnets reliés en broché, qui restent ouverts à plat et tiennent dans un sac.</p>
+      </div>
+      <div>
+        <h3>Un rythme doux</h3>
+        <p>Quelques minutes par jour suffisent. Vous pouvez reprendre à n'importe quelle page.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="auteur" aria-labelledby="h-auteur">
+    <h2 id="h-auteur">À propos</h2>
+    <div class="about">
+      <p>Memocho crée des carnets et journaux de bien-être pensés pour accompagner le quotidien : gratitude, intentions, objectifs et petits moments de réflexion.</p>
+      <p>Chaque titre propose des pages guidées pour noter, rêver et avancer pas à pas, avec des couvertures inspirées de la nature et des saisons.</p>
+      <p class="lang">Versions françaises et anglaises disponibles sur Amazon.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  <span>© Memocho</span>
+  <a href="https://www.amazon.com/dp/B0HQQ1B11G" target="_blank" rel="noopener">Nos livres sur Amazon</a>
+</footer>
